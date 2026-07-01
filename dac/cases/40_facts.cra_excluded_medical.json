@@ -1,0 +1,10 @@
+{
+  "case_id": "case_cra_excluded_medical",
+  "rulepack_ref": "cra@0.1.0",
+  "description": "デジタル要素を持つ医療機器。MDR で手当てされるため CRA 適用除外。",
+  "facts": {
+    "product_digital_elements": { "value": true, "confidence": "confirmed" },
+    "data_connection":          { "value": true, "confidence": "confirmed" },
+    "excluded_other_regulation":{ "value": true, "confidence": "confirmed", "evidence": "MDR 対象" }
+  }
+}

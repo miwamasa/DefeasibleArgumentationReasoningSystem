@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dac/schemas/40_facts.schema.json",
+  "title": "DAC fact table (per case)",
+  "type": "object",
+  "required": ["facts"],
+  "properties": {
+    "case_id": { "type": "string" },
+    "rulepack_ref": { "type": "string" },
+    "description": { "type": "string" },
+    "facts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["value"],
+        "properties": {
+          "value": { "type": ["boolean", "string", "number", "null"] },
+          "confidence": { "type": "string", "enum": ["confirmed", "presumed", "unknown"] },
+          "evidence": { "type": "string" },
+          "source": { "type": "string" },
+          "reference": { "type": ["string", "null"] }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

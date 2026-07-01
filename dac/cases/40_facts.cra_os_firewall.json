@@ -1,0 +1,10 @@
+{
+  "case_id": "case_cra_os_firewall",
+  "rulepack_ref": "cra@0.1.0",
+  "description": "オペレーティングシステム/ファイアウォール製品。Annex III クラスII に該当 → 第三者適合性評価。",
+  "facts": {
+    "product_digital_elements": { "value": true, "confidence": "confirmed" },
+    "data_connection":          { "value": true, "confidence": "confirmed" },
+    "annexIII_classII":         { "value": true, "confidence": "confirmed", "reference": "src_annexIII_II" }
+  }
+}

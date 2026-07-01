@@ -1,0 +1,14 @@
+{
+  "case_id": "case_2025_credit_scoring",
+  "rulepack_ref": "eu_ai_act_art6@6.1.0",
+  "description": "信用スコアリングAI。Annex III 5(b) 用途、6(3)(c) フィルター主張、しかしプロファイリング該当。提供者の役割は未指定（シミュレーションで補う）。",
+  "facts": {
+    "ai_system":        { "value": true,  "confidence": "confirmed", "evidence": "ML分類器" },
+    "usecase":          { "value": "5(b)", "confidence": "confirmed", "evidence": "信用力スコアリング", "reference": "src_art6_2" },
+    "permitted_by_law": { "value": true,  "confidence": "presumed",  "evidence": "明示の違法性なし" },
+    "filter_c":         { "value": true,  "confidence": "presumed",  "evidence": "決定パターン検知と主張" },
+    "automated":        { "value": true,  "confidence": "confirmed" },
+    "personal_data":    { "value": true,  "confidence": "confirmed" },
+    "evaluate_aspects": { "value": true,  "confidence": "confirmed", "evidence": "返済能力を評価" }
+  }
+}

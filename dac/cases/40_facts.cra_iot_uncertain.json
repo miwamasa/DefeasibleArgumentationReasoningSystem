@@ -1,0 +1,9 @@
+{
+  "case_id": "case_cra_iot_uncertain",
+  "rulepack_ref": "cra@0.1.0",
+  "description": "ネットワーク接続する一般 IoT 機器。デジタル要素・接続は確定だが、重要度クラスと除外が未確定 → シミュレーションで補う。",
+  "facts": {
+    "product_digital_elements": { "value": true, "confidence": "confirmed" },
+    "data_connection":          { "value": true, "confidence": "confirmed" }
+  }
+}

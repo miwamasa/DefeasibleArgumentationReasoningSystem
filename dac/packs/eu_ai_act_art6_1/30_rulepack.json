@@ -1,0 +1,88 @@
+{
+  "id": "eu_ai_act_art6_1",
+  "version": "1.0.0",
+  "literals_ref": "20_literals.json",
+  "source_ref": "10_source_nodes.json",
+  "note": "EU AI Act 6(1)/Annex I（安全コンポーネント経路）。ガイドライン(Annex I章)に準拠。安全コンポーネント=安全機能∨故障危険(Art 3(14))。原則:安全関連のAnnex I製品AIは高リスク。例外:自己評価(モジュールA)で足りる場合は非該当。例外の例外:第三者評価が必要、又は整合規格の義務化がモジュールAの条件なら高リスクが復権(para 56-59)。",
+
+  "strict": [
+    { "id": "s_sc", "body": [{ "any": ["intended_safety_function", "failure_endangers"] }],
+      "head": "safety_component", "ref": "Art 3(14)", "backing": ["src_art3_14"] }
+  ],
+
+  "defeasible": [
+    { "id": "rHR", "body": ["ai_system", "annex_i_regulated", { "any": ["is_product_itself", "safety_component"] }],
+      "head": "high_risk@art6_1", "ref": "Art 6(1)", "backing": ["src_art6_1"],
+      "note": "原則: Annex I 規制製品であって、製品自体又は安全コンポーネントであるAIは高リスク" },
+    { "id": "rSelfExempt", "body": ["module_a_available"],
+      "head": "not_high_risk@art6_1", "ref": "Art 6(1) / Blue Guide Module A", "backing": ["src_module_a"],
+      "note": "例外: 内部統制(モジュールA)の自己評価で足りるなら、6(1) の第三者評価要件を満たさず非該当と主張しうる" }
+  ],
+
+  "undercut": [
+    { "id": "eThirdParty", "body": ["requires_third_party_ca"], "target": { "ruleId": "rSelfExempt" },
+      "ref": "Art 6(1)", "backing": ["src_dec768"],
+      "note": "実際に第三者適合性評価を要するなら、自己評価による非該当の主張は成り立たない" },
+    { "id": "eHarmonised", "body": ["harmonised_standards_mandatory"], "target": { "ruleId": "rSelfExempt" },
+      "ref": "para 56-59", "backing": ["src_module_a", "src_toys_r15"],
+      "note": "モジュールAが整合規格の義務的適用を条件とする場合、強化された scrutiny に当たり、自己評価による非該当の主張は成り立たない（高リスクが復権）" }
+  ],
+
+  "conflicts": [["high_risk@art6_1", "not_high_risk@art6_1"]],
+  "superiority": [["rSelfExempt", "rHR"]],
+
+  "verdict_map": {
+    "positive": ["high_risk@art6_1"],
+    "negative": ["not_high_risk@art6_1"],
+    "labels": { "positive": "HIGH_RISK", "negative": "NOT_HIGH_RISK", "undetermined": "UNDETERMINED" }
+  },
+  "policy_beta": "skeptical",
+
+  "obligations": [
+    { "id": "obl_art9",  "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "リスク管理システム", "en": "Risk management system" },
+      "text": "ライフサイクル全体にわたる継続的なリスク管理システムを確立・維持する。", "ref": "Art 9", "backing": ["src_art9"] },
+    { "id": "obl_art10", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "データ・ガバナンス", "en": "Data and data governance" },
+      "text": "学習・検証・テストデータの品質基準とガバナンス慣行を満たす。", "ref": "Art 10", "backing": ["src_art10"] },
+    { "id": "obl_art11", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "技術文書", "en": "Technical documentation" },
+      "text": "上市前に Annex IV に従った技術文書を作成し最新に保つ。", "ref": "Art 11", "backing": ["src_art11"] },
+    { "id": "obl_art12", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "ログ記録", "en": "Record-keeping (logging)" },
+      "text": "稼働イベントを自動記録（ログ）する機能を備える。", "ref": "Art 12", "backing": ["src_art12"] },
+    { "id": "obl_art13", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "透明性・使用説明書", "en": "Transparency / instructions for use" },
+      "text": "出力を解釈・利用できる透明性を確保し、使用説明書を提供する。", "ref": "Art 13", "backing": ["src_art13"] },
+    { "id": "obl_art14", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "人間による監督", "en": "Human oversight" },
+      "text": "自然人が効果的に監督できるよう設計・開発する。", "ref": "Art 14", "backing": ["src_art14"] },
+    { "id": "obl_art15", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "正確性・頑健性・サイバーセキュリティ", "en": "Accuracy, robustness, cybersecurity" },
+      "text": "適切な正確性・頑健性・サイバーセキュリティを達成する。", "ref": "Art 15", "backing": ["src_art15"] },
+    { "id": "obl_art17", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "品質管理システム", "en": "Quality management system" },
+      "text": "適合を確保する品質管理システムを整備する。", "ref": "Art 17", "backing": ["src_art17"] },
+    { "id": "obl_art43", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "適合性評価", "en": "Conformity assessment" },
+      "text": "Annex I 各法令の該当する適合性評価手続を上市前に完了する。", "ref": "Art 43", "backing": ["src_art43"] },
+    { "id": "obl_art47", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "EU適合宣言", "en": "EU declaration of conformity" },
+      "text": "EU適合宣言書を作成・保持する。", "ref": "Art 47", "backing": ["src_art47"] },
+    { "id": "obl_art48", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "CEマーキング", "en": "CE marking" },
+      "text": "適合性を示すCEマーキングを付す。", "ref": "Art 48", "backing": ["src_art48"] },
+    { "id": "obl_art49", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "EUデータベース登録", "en": "Registration" },
+      "text": "上市・運用開始前にEUデータベースへ登録する。", "ref": "Art 49", "backing": ["src_art49"] },
+    { "id": "obl_art72", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "市販後モニタリング", "en": "Post-market monitoring" },
+      "text": "市販後モニタリングシステムを確立・文書化する。", "ref": "Art 72", "backing": ["src_art72"] },
+    { "id": "obl_art8_integration", "trigger": "positive", "role": "role_provider", "default_role": true,
+      "label": { "ja": "既存の分野別枠組へのAIリスク統合", "en": "Integrate AI risk into existing sectoral systems" },
+      "text": "Art 8(2)/9(10)/17(3) により、AI固有リスクの評価を Annex I 法令の既存リスク・品質管理システムに統合し、適合作業の重複を避けることができる。", "ref": "Art 8(2)", "backing": ["src_art8"] },
+    { "id": "obl_art26", "trigger": "positive", "role": "role_deployer", "default_role": false,
+      "label": { "ja": "デプロイヤ義務", "en": "Deployer obligations" },
+      "text": "使用説明書に従った利用・人間監督の割当・ログ保持・稼働監視を行う。", "ref": "Art 26", "backing": ["src_art26"] }
+  ]
+}

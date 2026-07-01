@@ -1,0 +1,13 @@
+{
+  "case_id": "case_a61_toy_module_a_harmonised",
+  "rulepack_ref": "eu_ai_act_art6_1@1.0.0",
+  "description": "玩具の安全コンポーネントとなるAI。玩具安全規則は整合規格の適用によりモジュールA(自己評価)へのオプトアウトを認めるが、Recital 15/para 59により高リスク分類は維持される。",
+  "facts": {
+    "ai_system": { "value": true, "confidence": "confirmed" },
+    "annex_i_regulated": { "value": true, "confidence": "confirmed", "evidence": "玩具安全規則(EU)2025/2509の対象" },
+    "failure_endangers": { "value": true, "confidence": "confirmed", "evidence": "誤作動で子供に危害" },
+    "module_a_available": { "value": true, "confidence": "confirmed", "evidence": "整合規格適用でモジュールAにオプトアウト可" },
+    "harmonised_standards_mandatory": { "value": true, "confidence": "confirmed", "evidence": "モジュールAは整合規格の義務的適用が条件" },
+    "requires_third_party_ca": { "value": false, "confidence": "confirmed" }
+  }
+}

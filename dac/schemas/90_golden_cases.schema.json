@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dac/schemas/90_golden_cases.schema.json",
+  "title": "DAC golden cases (regression)",
+  "type": "object",
+  "required": ["cases"],
+  "properties": {
+    "schema": { "type": "string" },
+    "engine": { "type": "string" },
+    "note": { "type": "string" },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "facts", "expect"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string", "enum": ["application", "structure"] },
+          "rulepack_ref": { "type": "string" },
+          "inline_rulepack": { "type": "object" },
+          "description": { "type": "string" },
+          "facts": { "type": "object" },
+          "expect": {
+            "type": "object",
+            "properties": {
+              "verdict": { "type": "string" },
+              "provisional": { "type": "boolean" },
+              "labels": { "type": "object", "additionalProperties": { "type": "string" } },
+              "band4": { "type": "object", "additionalProperties": { "type": "string" } },
+              "accepted_rules": { "type": "array", "items": { "type": "string" } },
+              "rejected_rules": { "type": "array", "items": { "type": "string" } },
+              "open_literals": { "type": "array", "items": { "type": "string" } },
+              "invariant": { "type": "boolean" },
+              "obligations": { "type": "object" },
+              "simulation": { "type": "object" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "oneOf": [
+          { "required": ["rulepack_ref"] },
+          { "required": ["inline_rulepack"] }
+        ],
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

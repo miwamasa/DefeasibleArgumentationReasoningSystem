@@ -1,0 +1,475 @@
+{
+  "schema": "dac_golden_cases@1.1",
+  "engine": "dac/core v6 (L ⊆ DEF ⊆ U), verdict_map + obligations + simulation",
+  "note": "expect は部分集合一致。application ケースは rulepack_ref で実パックを解決し、obligations/simulation も検査できる。structure ケースは inline_rulepack（verdict_map なし＝後方互換 concl 規約）。",
+  "cases": [
+    {
+      "id": "gc_app_profiling_reinstates_high_risk",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "usecase": { "value": "5(b)", "confidence": "confirmed" },
+        "permitted_by_law": { "value": true, "confidence": "confirmed" },
+        "filter_c": { "value": true, "confidence": "confirmed" },
+        "automated": { "value": true, "confidence": "confirmed" },
+        "personal_data": { "value": true, "confidence": "confirmed" },
+        "evaluate_aspects": { "value": true, "confidence": "confirmed" },
+        "role_provider": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "HIGH_RISK", "provisional": false,
+        "band4": { "high_risk@pathB": "ESTABLISHED", "not_high_risk": "EXCLUDED" },
+        "accepted_rules": ["rB", "eProf"], "rejected_rules": ["rFilt"], "invariant": true,
+        "obligations": { "triggered": true, "role": "provider", "includes": ["obl_art9", "obl_art43", "obl_art49"], "minCount": 13 }
+      }
+    },
+    {
+      "id": "gc_app_filter_exempt_not_high_risk",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "usecase": { "value": "4(b)", "confidence": "confirmed" },
+        "permitted_by_law": { "value": true, "confidence": "confirmed" },
+        "filter_a": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "NOT_HIGH_RISK",
+        "band4": { "high_risk@pathB": "EXCLUDED", "not_high_risk": "ESTABLISHED" },
+        "accepted_rules": ["rFilt"], "rejected_rules": ["rB"], "invariant": true,
+        "obligations": { "triggered": false }
+      }
+    },
+    {
+      "id": "gc_app_pathA_filter_immunity",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "annexI_regulated": { "value": true, "confidence": "confirmed" },
+        "product_itself": { "value": true, "confidence": "confirmed" },
+        "third_party_ca": { "value": true, "confidence": "confirmed" },
+        "usecase": { "value": "4(b)", "confidence": "confirmed" },
+        "permitted_by_law": { "value": true, "confidence": "confirmed" },
+        "filter_a": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "HIGH_RISK",
+        "band4": { "high_risk@pathA": "ESTABLISHED", "high_risk@pathB": "EXCLUDED", "not_high_risk": "ESTABLISHED" },
+        "accepted_rules": ["sA", "rFilt"], "invariant": true,
+        "obligations": { "triggered": true, "minCount": 13 }
+      }
+    },
+    {
+      "id": "gc_app_provisional_on_presumed",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "usecase": { "value": "5(b)", "confidence": "confirmed" },
+        "permitted_by_law": { "value": true, "confidence": "presumed" },
+        "filter_c": { "value": true, "confidence": "confirmed" },
+        "automated": { "value": true, "confidence": "confirmed" },
+        "personal_data": { "value": true, "confidence": "confirmed" },
+        "evaluate_aspects": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "HIGH_RISK", "provisional": true,
+        "band4": { "high_risk@pathB": "ESTABLISHED" },
+        "open_literals": ["permitted_by_law"], "invariant": true,
+        "obligations": { "triggered": true, "provisional": true, "roleAssumed": true }
+      }
+    },
+    {
+      "id": "gc_app_simulation_flips_verdict",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "usecase": { "value": "4(b)", "confidence": "confirmed" },
+        "permitted_by_law": { "value": true, "confidence": "confirmed" },
+        "filter_a": { "value": true, "confidence": "presumed" }
+      },
+      "expect": {
+        "verdict": "NOT_HIGH_RISK",
+        "obligations": { "triggered": false },
+        "simulation": { "verdictFlipsTo": "HIGH_RISK", "flipLiteralsInclude": ["ranks_or_scores"] }
+      }
+    },
+    {
+      "id": "gc_cra_classII_third_party",
+      "kind": "application",
+      "rulepack_ref": "cra",
+      "facts": {
+        "product_digital_elements": { "value": true, "confidence": "confirmed" },
+        "data_connection": { "value": true, "confidence": "confirmed" },
+        "annexIII_classII": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "IN_SCOPE",
+        "band4": { "in_scope": "ESTABLISHED", "tier_class_II": "ESTABLISHED", "tier_default": "EXCLUDED" },
+        "accepted_rules": ["rScope", "rClassII"], "rejected_rules": ["rDefault"], "invariant": true,
+        "obligations": { "triggered": true, "includes": ["obl_essential_req", "obl_ca_classII"], "minCount": 8 }
+      }
+    },
+    {
+      "id": "gc_cra_critical_priority_over_classII",
+      "kind": "application",
+      "rulepack_ref": "cra",
+      "facts": {
+        "product_digital_elements": { "value": true, "confidence": "confirmed" },
+        "data_connection": { "value": true, "confidence": "confirmed" },
+        "annexIII_classII": { "value": true, "confidence": "confirmed" },
+        "annexIV_critical": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "IN_SCOPE",
+        "band4": { "tier_critical": "ESTABLISHED", "tier_class_II": "EXCLUDED", "tier_default": "EXCLUDED" },
+        "accepted_rules": ["rCritical"], "rejected_rules": ["rClassII", "rDefault"], "invariant": true,
+        "obligations": { "triggered": true, "includes": ["obl_ca_critical"] }
+      }
+    },
+    {
+      "id": "gc_cra_excluded_out_of_scope",
+      "kind": "application",
+      "rulepack_ref": "cra",
+      "facts": {
+        "product_digital_elements": { "value": true, "confidence": "confirmed" },
+        "data_connection": { "value": true, "confidence": "confirmed" },
+        "excluded_other_regulation": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "OUT_OF_SCOPE",
+        "band4": { "in_scope": "EXCLUDED", "out_of_scope": "ESTABLISHED", "tier_default": "EXCLUDED" },
+        "accepted_rules": ["rExcl"], "rejected_rules": ["rScope", "rDefault"], "invariant": true,
+        "obligations": { "triggered": false }
+      }
+    },
+    {
+      "id": "gc_cra_simulation_excluded_flips",
+      "kind": "application",
+      "rulepack_ref": "cra",
+      "facts": {
+        "product_digital_elements": { "value": true, "confidence": "confirmed" },
+        "data_connection": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "IN_SCOPE",
+        "obligations": { "triggered": true, "minCount": 8 },
+        "simulation": { "verdictFlipsTo": "OUT_OF_SCOPE", "flipLiteralsInclude": ["excluded_other_regulation"] }
+      }
+    },
+    {
+      "id": "gc_gdpr_35_3a_required_with_consultation",
+      "kind": "application",
+      "rulepack_ref": "gdpr_art35",
+      "facts": {
+        "systematic_extensive_evaluation": { "value": true, "confidence": "confirmed" },
+        "residual_high_risk": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "DPIA_REQUIRED",
+        "band4": { "dpia_required": "ESTABLISHED", "prior_consultation_required": "ESTABLISHED" },
+        "accepted_rules": ["r35_3a", "r36"], "invariant": true,
+        "obligations": { "triggered": true, "includes": ["obl_carry_out_dpia", "obl_prior_consultation"], "minCount": 4 }
+      }
+    },
+    {
+      "id": "gc_gdpr_whitelist_exempts",
+      "kind": "application",
+      "rulepack_ref": "gdpr_art35",
+      "facts": {
+        "high_risk_likely": { "value": true, "confidence": "confirmed" },
+        "authority_whitelist": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "DPIA_NOT_REQUIRED",
+        "band4": { "dpia_required": "EXCLUDED", "dpia_not_required": "ESTABLISHED" },
+        "accepted_rules": ["r35_5"], "rejected_rules": ["r35_1"], "invariant": true,
+        "obligations": { "triggered": false }
+      }
+    },
+    {
+      "id": "gc_gdpr_blacklist_reinstates_over_whitelist",
+      "kind": "application",
+      "rulepack_ref": "gdpr_art35",
+      "facts": {
+        "high_risk_likely": { "value": true, "confidence": "confirmed" },
+        "authority_whitelist": { "value": true, "confidence": "confirmed" },
+        "authority_blacklist": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "DPIA_REQUIRED",
+        "band4": { "dpia_required": "ESTABLISHED", "dpia_not_required": "EXCLUDED" },
+        "accepted_rules": ["r35_4"], "rejected_rules": ["r35_5"], "invariant": true,
+        "obligations": { "triggered": true }
+      }
+    },
+    {
+      "id": "gc_gdpr_legalbasis_exempts",
+      "kind": "application",
+      "rulepack_ref": "gdpr_art35",
+      "facts": {
+        "systematic_extensive_evaluation": { "value": true, "confidence": "confirmed" },
+        "legal_basis_law": { "value": true, "confidence": "confirmed" },
+        "dpia_done_in_legislation": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "DPIA_NOT_REQUIRED",
+        "labels": { "r35_10": "IN", "r35_3a": "OUT" },
+        "band4": { "dpia_not_required": "ESTABLISHED" },
+        "accepted_rules": ["r35_10"], "rejected_rules": ["r35_3a"], "invariant": true,
+        "obligations": { "triggered": false }
+      }
+    },
+    {
+      "id": "gc_gdpr_msdeems_reinstates",
+      "kind": "application",
+      "rulepack_ref": "gdpr_art35",
+      "facts": {
+        "systematic_extensive_evaluation": { "value": true, "confidence": "confirmed" },
+        "legal_basis_law": { "value": true, "confidence": "confirmed" },
+        "dpia_done_in_legislation": { "value": true, "confidence": "confirmed" },
+        "ms_deems_necessary": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "DPIA_REQUIRED",
+        "labels": { "r35_10": "OUT", "uMS": "IN", "r35_3a": "IN" },
+        "band4": { "dpia_required": "ESTABLISHED" },
+        "accepted_rules": ["r35_3a", "uMS"], "rejected_rules": ["r35_10"], "invariant": true,
+        "obligations": { "triggered": true }
+      }
+    },
+    {
+      "id": "gc_gdpr_blacklist_vs_legalbasis_undetermined",
+      "kind": "application",
+      "rulepack_ref": "gdpr_art35",
+      "facts": {
+        "authority_blacklist": { "value": true, "confidence": "confirmed" },
+        "legal_basis_law": { "value": true, "confidence": "confirmed" },
+        "dpia_done_in_legislation": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "UNDETERMINED",
+        "labels": { "r35_4": "UNDEC", "r35_10": "UNDEC" },
+        "band4": { "dpia_required": "DEFENSIBLE", "dpia_not_required": "DEFENSIBLE" },
+        "invariant": true,
+        "obligations": { "triggered": false }
+      }
+    },
+    {
+      "id": "gc_gdpr_simulation_triggers_dpia",
+      "kind": "application",
+      "rulepack_ref": "gdpr_art35",
+      "facts": {},
+      "expect": {
+        "verdict": "DPIA_NOT_REQUIRED",
+        "obligations": { "triggered": false },
+        "simulation": { "verdictFlipsTo": "DPIA_REQUIRED", "flipLiteralsInclude": ["systematic_extensive_evaluation", "large_scale_special_categories"] }
+      }
+    },
+    {
+      "id": "gc_a61_machinery_safety_function",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6_1",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "annex_i_regulated": { "value": true, "confidence": "confirmed" },
+        "intended_safety_function": { "value": true, "confidence": "confirmed" },
+        "requires_third_party_ca": { "value": true, "confidence": "confirmed" },
+        "role_provider": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "HIGH_RISK",
+        "band4": { "high_risk@art6_1": "ESTABLISHED" },
+        "accepted_rules": ["rHR"], "invariant": true,
+        "obligations": { "triggered": true, "role": "provider", "includes": ["obl_art9", "obl_art43", "obl_art8_integration"], "minCount": 14 }
+      }
+    },
+    {
+      "id": "gc_a61_lift_failure_endangers",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6_1",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "annex_i_regulated": { "value": true, "confidence": "confirmed" },
+        "intended_safety_function": { "value": false, "confidence": "presumed" },
+        "failure_endangers": { "value": true, "confidence": "confirmed" },
+        "requires_third_party_ca": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "HIGH_RISK",
+        "labels": { "rHR": "IN" },
+        "band4": { "high_risk@art6_1": "ESTABLISHED" }, "invariant": true,
+        "accepted_rules": ["rHR"],
+        "obligations": { "triggered": true }
+      }
+    },
+    {
+      "id": "gc_a61_smart_thermostat_not_safety_component",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6_1",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "annex_i_regulated": { "value": true, "confidence": "confirmed" },
+        "intended_safety_function": { "value": false, "confidence": "confirmed" },
+        "failure_endangers": { "value": false, "confidence": "presumed" },
+        "module_a_available": { "value": true, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "NOT_HIGH_RISK",
+        "accepted_rules": ["rSelfExempt"], "invariant": true,
+        "obligations": { "triggered": false }
+      }
+    },
+    {
+      "id": "gc_a61_toy_module_a_harmonised_reinstates",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6_1",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "annex_i_regulated": { "value": true, "confidence": "confirmed" },
+        "failure_endangers": { "value": true, "confidence": "confirmed" },
+        "module_a_available": { "value": true, "confidence": "confirmed" },
+        "harmonised_standards_mandatory": { "value": true, "confidence": "confirmed" },
+        "requires_third_party_ca": { "value": false, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "HIGH_RISK",
+        "labels": { "rHR": "IN", "rSelfExempt": "OUT", "eHarmonised": "IN" },
+        "band4": { "high_risk@art6_1": "ESTABLISHED", "not_high_risk@art6_1": "EXCLUDED" },
+        "accepted_rules": ["rHR", "eHarmonised"], "rejected_rules": ["rSelfExempt"], "invariant": true,
+        "obligations": { "triggered": true }
+      }
+    },
+    {
+      "id": "gc_a61_red_self_assessment_not_high_risk",
+      "kind": "application",
+      "rulepack_ref": "eu_ai_act_art6_1",
+      "facts": {
+        "ai_system": { "value": true, "confidence": "confirmed" },
+        "annex_i_regulated": { "value": true, "confidence": "confirmed" },
+        "failure_endangers": { "value": true, "confidence": "presumed" },
+        "module_a_available": { "value": true, "confidence": "confirmed" },
+        "harmonised_standards_mandatory": { "value": false, "confidence": "confirmed" },
+        "requires_third_party_ca": { "value": false, "confidence": "confirmed" }
+      },
+      "expect": {
+        "verdict": "NOT_HIGH_RISK",
+        "labels": { "rHR": "OUT", "rSelfExempt": "IN" },
+        "accepted_rules": ["rSelfExempt"], "rejected_rules": ["rHR"], "invariant": true,
+        "obligations": { "triggered": false }
+      }
+    },
+    {
+      "id": "gc_beta_skeptical_2cycle_undetermined",
+      "kind": "structure",
+      "description": "相互反駁2サイクル。β=skeptical なので肯定結論は L に入らず UNDETERMINED。",
+      "inline_rulepack": {
+        "strict": [], "undercut": [],
+        "defeasible": [
+          { "id": "pX", "body": ["a"], "head": "hr", "ref": "t1" },
+          { "id": "qX", "body": ["b"], "head": "nhr", "ref": "t2" }
+        ],
+        "conflicts": [["hr", "nhr"]], "superiority": [],
+        "verdict_map": { "positive": ["hr"], "negative": ["nhr"], "labels": { "positive": "POS", "negative": "NEG", "undetermined": "UNDET" } },
+        "policy_beta": "skeptical"
+      },
+      "facts": { "a": { "value": true, "confidence": "confirmed" }, "b": { "value": true, "confidence": "confirmed" } },
+      "expect": { "verdict": "UNDET", "band4": { "hr": "DEFENSIBLE", "nhr": "DEFENSIBLE" }, "invariant": true }
+    },
+    {
+      "id": "gc_beta_defensible_2cycle_positive",
+      "kind": "structure",
+      "description": "同じ2サイクルだが β=defensible。肯定結論 hr は擁護可能（DEF）なので採用 → POS。",
+      "inline_rulepack": {
+        "strict": [], "undercut": [],
+        "defeasible": [
+          { "id": "pX", "body": ["a"], "head": "hr", "ref": "t1" },
+          { "id": "qX", "body": ["b"], "head": "nhr", "ref": "t2" }
+        ],
+        "conflicts": [["hr", "nhr"]], "superiority": [],
+        "verdict_map": { "positive": ["hr"], "negative": ["nhr"], "labels": { "positive": "POS", "negative": "NEG", "undetermined": "UNDET" } },
+        "policy_beta": "defensible"
+      },
+      "facts": { "a": { "value": true, "confidence": "confirmed" }, "b": { "value": true, "confidence": "confirmed" } },
+      "expect": { "verdict": "POS", "band4": { "hr": "DEFENSIBLE" }, "invariant": true }
+    },
+    {
+      "id": "gc_beta_credulous_2cycle_positive",
+      "kind": "structure",
+      "description": "同じ2サイクルだが β=credulous。肯定結論 hr は U（反駁不能）なので採用 → POS。",
+      "inline_rulepack": {
+        "strict": [], "undercut": [],
+        "defeasible": [
+          { "id": "pX", "body": ["a"], "head": "hr", "ref": "t1" },
+          { "id": "qX", "body": ["b"], "head": "nhr", "ref": "t2" }
+        ],
+        "conflicts": [["hr", "nhr"]], "superiority": [],
+        "verdict_map": { "positive": ["hr"], "negative": ["nhr"], "labels": { "positive": "POS", "negative": "NEG", "undetermined": "UNDET" } },
+        "policy_beta": "credulous"
+      },
+      "facts": { "a": { "value": true, "confidence": "confirmed" }, "b": { "value": true, "confidence": "confirmed" } },
+      "expect": { "verdict": "POS", "band4": { "hr": "DEFENSIBLE" }, "invariant": true }
+    },
+    {
+      "id": "gc_struct_noncyclic_established_excluded",
+      "kind": "structure",
+      "inline_rulepack": {
+        "strict": [], "undercut": [],
+        "defeasible": [
+          { "id": "pX", "body": ["a"], "head": "high_risk@pathT", "ref": "t1" },
+          { "id": "qX", "body": ["a"], "head": "not_high_risk", "ref": "t2" }
+        ],
+        "conflicts": [["high_risk@pathT", "not_high_risk"]], "superiority": [["qX", "pX"]]
+      },
+      "facts": { "a": { "value": true, "confidence": "confirmed" } },
+      "expect": { "labels": { "qX": "IN", "pX": "OUT" },
+        "band4": { "not_high_risk": "ESTABLISHED", "high_risk@pathT": "EXCLUDED" }, "invariant": true }
+    },
+    {
+      "id": "gc_struct_2cycle_defensible",
+      "kind": "structure",
+      "inline_rulepack": {
+        "strict": [], "undercut": [],
+        "defeasible": [
+          { "id": "pX", "body": ["a"], "head": "high_risk@pathT", "ref": "t1" },
+          { "id": "qX", "body": ["b"], "head": "not_high_risk", "ref": "t2" }
+        ],
+        "conflicts": [["high_risk@pathT", "not_high_risk"]], "superiority": []
+      },
+      "facts": { "a": { "value": true, "confidence": "confirmed" }, "b": { "value": true, "confidence": "confirmed" } },
+      "expect": { "labels": { "pX": "UNDEC", "qX": "UNDEC" },
+        "band4": { "high_risk@pathT": "DEFENSIBLE", "not_high_risk": "DEFENSIBLE" }, "invariant": true }
+    },
+    {
+      "id": "gc_struct_3cycle_not_disproven",
+      "kind": "structure",
+      "inline_rulepack": {
+        "strict": [], "undercut": [],
+        "defeasible": [
+          { "id": "pX", "body": ["a"], "head": "high_risk@p1", "ref": "t" },
+          { "id": "qX", "body": ["a"], "head": "high_risk@p2", "ref": "t" },
+          { "id": "rX", "body": ["a"], "head": "not_high_risk", "ref": "t" }
+        ],
+        "conflicts": [["high_risk@p1", "high_risk@p2"], ["high_risk@p2", "not_high_risk"], ["not_high_risk", "high_risk@p1"]],
+        "superiority": [["pX", "qX"], ["qX", "rX"], ["rX", "pX"]]
+      },
+      "facts": { "a": { "value": true, "confidence": "confirmed" } },
+      "expect": { "labels": { "pX": "UNDEC", "qX": "UNDEC", "rX": "UNDEC" },
+        "band4": { "high_risk@p1": "NOT_DISPROVEN", "high_risk@p2": "NOT_DISPROVEN", "not_high_risk": "NOT_DISPROVEN" }, "invariant": true }
+    },
+    {
+      "id": "gc_struct_selfdefeat_not_disproven",
+      "kind": "structure",
+      "inline_rulepack": {
+        "strict": [], "undercut": [],
+        "defeasible": [ { "id": "pX", "body": ["a"], "head": "high_risk@pathT", "ref": "t" } ],
+        "conflicts": [["high_risk@pathT", "high_risk@pathT"]], "superiority": []
+      },
+      "facts": { "a": { "value": true, "confidence": "confirmed" } },
+      "expect": { "labels": { "pX": "UNDEC" }, "band4": { "high_risk@pathT": "NOT_DISPROVEN" }, "invariant": true }
+    }
+  ]
+}

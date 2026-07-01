@@ -1,0 +1,12 @@
+{
+  "case_id": "case_a61_smart_thermostat",
+  "rulepack_ref": "eu_ai_act_art6_1@1.0.0",
+  "description": "無線機器指令対象のスマートサーモスタット。意図目的は快適性・省エネで、故障しても不便や電気代増にとどまる=安全コンポーネントでない（ガイドライン para 48-49）。",
+  "facts": {
+    "ai_system": { "value": true, "confidence": "confirmed" },
+    "annex_i_regulated": { "value": true, "confidence": "confirmed", "evidence": "無線機器指令の対象" },
+    "intended_safety_function": { "value": false, "confidence": "confirmed", "evidence": "快適性・省エネ最適化" },
+    "failure_endangers": { "value": false, "confidence": "presumed", "evidence": "故障は不便・電気代増のみ" },
+    "module_a_available": { "value": true, "confidence": "confirmed" }
+  }
+}

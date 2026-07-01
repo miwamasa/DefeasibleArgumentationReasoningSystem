@@ -1,0 +1,12 @@
+{
+  "case_id": "case_a61_lift_door",
+  "rulepack_ref": "eu_ai_act_art6_1@1.0.0",
+  "description": "昇降機のドア開閉タイミングと障害物検知を管理するAI。意図目的は効率的運行だが、故障すれば傷害を生みうる=故障危険で安全コンポーネント（ガイドライン para 46）。",
+  "facts": {
+    "ai_system": { "value": true, "confidence": "confirmed" },
+    "annex_i_regulated": { "value": true, "confidence": "confirmed", "evidence": "昇降機指令の対象" },
+    "intended_safety_function": { "value": false, "confidence": "presumed", "evidence": "意図は効率運行" },
+    "failure_endangers": { "value": true, "confidence": "confirmed", "evidence": "誤作動で挟まれ等の傷害" },
+    "requires_third_party_ca": { "value": true, "confidence": "confirmed" }
+  }
+}

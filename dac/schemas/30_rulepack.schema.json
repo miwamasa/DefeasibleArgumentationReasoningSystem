@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dac/schemas/30_rulepack.schema.json",
+  "title": "DAC rulepack (rules + logic + verdict_map + obligations)",
+  "type": "object",
+  "required": ["id", "version", "verdict_map"],
+  "$defs": {
+    "bodyItem": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "object", "required": ["any"], "properties": { "any": { "type": "array", "items": { "type": "string" }, "minItems": 1 } }, "additionalProperties": false }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "required": ["id", "body", "head"],
+      "properties": {
+        "id": { "type": "string" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/bodyItem" } },
+        "head": { "type": "string" },
+        "ref": { "type": "string" },
+        "backing": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "undercutRule": {
+      "type": "object",
+      "required": ["id", "body", "target"],
+      "properties": {
+        "id": { "type": "string" },
+        "body": { "type": "array", "items": { "$ref": "#/$defs/bodyItem" } },
+        "target": {
+          "type": "object",
+          "required": ["ruleId"],
+          "properties": { "ruleId": { "type": "string" }, "via": { "type": "string" } },
+          "additionalProperties": false
+        },
+        "ref": { "type": "string" },
+        "backing": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "properties": {
+    "id": { "type": "string" },
+    "version": { "type": "string" },
+    "literals_ref": { "type": "string" },
+    "source_ref": { "type": "string" },
+    "note": { "type": "string" },
+    "strict": { "type": "array", "items": { "$ref": "#/$defs/rule" } },
+    "defeasible": { "type": "array", "items": { "$ref": "#/$defs/rule" } },
+    "undercut": { "type": "array", "items": { "$ref": "#/$defs/undercutRule" } },
+    "conflicts": { "type": "array", "items": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 } },
+    "superiority": { "type": "array", "items": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 } },
+    "verdict_map": {
+      "type": "object",
+      "required": ["labels"],
+      "properties": {
+        "positive": { "type": "array", "items": { "type": "string" } },
+        "negative": { "type": "array", "items": { "type": "string" } },
+        "classes": { "type": "array", "items": { "type": "string" } },
+        "labels": {
+          "type": "object",
+          "required": ["positive", "negative", "undetermined"],
+          "properties": {
+            "positive": { "type": "string" },
+            "negative": { "type": "string" },
+            "undetermined": { "type": "string" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "policy_beta": { "type": "string", "enum": ["skeptical", "defensible", "credulous"] },
+    "obligations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "trigger": { "type": "string", "enum": ["positive"] },
+          "trigger_claim": { "type": "string" },
+          "role": { "type": "string" },
+          "default_role": { "type": "boolean" },
+          "label": { "type": "object", "properties": { "ja": { "type": "string" }, "en": { "type": "string" } }, "additionalProperties": true },
+          "text": { "type": "string" },
+          "ref": { "type": "string" },
+          "backing": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

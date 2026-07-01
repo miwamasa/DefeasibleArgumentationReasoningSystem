@@ -1,0 +1,11 @@
+{
+  "case_id": "case_gdpr_legalbasis_msdeems",
+  "rulepack_ref": "gdpr_art35@1.0.0",
+  "description": "法的根拠あり＋立法段階でDPIA済（35(10)免除）だが、加盟国が必要と判断（但書）→ 免除が外れDPIA復権。",
+  "facts": {
+    "systematic_extensive_evaluation": { "value": true, "confidence": "confirmed" },
+    "legal_basis_law":                 { "value": true, "confidence": "confirmed" },
+    "dpia_done_in_legislation":        { "value": true, "confidence": "confirmed" },
+    "ms_deems_necessary":              { "value": true, "confidence": "confirmed" }
+  }
+}

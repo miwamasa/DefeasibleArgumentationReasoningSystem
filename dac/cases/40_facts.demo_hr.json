@@ -1,0 +1,27 @@
+{
+  "case_id": "case_demo_hr",
+  "rulepack_ref": "gdpr_art35@1.0.0",
+  "description": "採用支援AI（応募者スコアリング）。特別カテゴリ不使用、EU域内数万人規模。",
+  "facts": {
+    "systematic_extensive_evaluation": {
+      "value": true,
+      "confidence": "confirmed",
+      "evidence": "応募者を自動スコアリングし採用判断の基礎に用いる"
+    },
+    "large_scale_special_categories": {
+      "value": false,
+      "confidence": "confirmed",
+      "evidence": "特別カテゴリは扱わないと明記"
+    },
+    "high_risk_likely": {
+      "value": true,
+      "confidence": "presumed",
+      "evidence": "評価・自動意思決定・大規模の複数基準に該当しうる"
+    },
+    "residual_high_risk": {
+      "value": true,
+      "confidence": "presumed",
+      "evidence": "人事判断の参考とはいえ影響が大きい可能性"
+    }
+  }
+}

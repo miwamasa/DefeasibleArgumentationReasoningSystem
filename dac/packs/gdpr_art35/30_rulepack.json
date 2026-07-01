@@ -1,0 +1,61 @@
+{
+  "id": "gdpr_art35",
+  "version": "1.0.0",
+  "literals_ref": "20_literals.json",
+  "source_ref": "10_source_nodes.json",
+  "note": "GDPR Art 35 DPIA要否 + Art 36 事前協議。原則(35(1)/35(3))→除外(35(5)ホワイトリスト/35(10)法的根拠)→例外の例外(35(10)但書のMS判断による復権、35(4)ブラックリストがホワイトリストに優越)。",
+
+  "strict": [],
+
+  "defeasible": [
+    { "id": "r35_3a", "body": ["systematic_extensive_evaluation"], "head": "dpia_required", "ref": "Art 35(3)(a)", "backing": ["src_art35_3a"] },
+    { "id": "r35_3b", "body": ["large_scale_special_categories"],  "head": "dpia_required", "ref": "Art 35(3)(b)", "backing": ["src_art35_3b"] },
+    { "id": "r35_3c", "body": ["systematic_monitoring_public"],    "head": "dpia_required", "ref": "Art 35(3)(c)", "backing": ["src_art35_3c"] },
+    { "id": "r35_1",  "body": ["high_risk_likely"],                "head": "dpia_required", "ref": "Art 35(1)", "backing": ["src_art35_1", "src_wp248"] },
+    { "id": "r35_4",  "body": ["authority_blacklist"],             "head": "dpia_required", "ref": "Art 35(4)", "backing": ["src_art35_4"] },
+
+    { "id": "r35_5",  "body": ["authority_whitelist"],                          "head": "dpia_not_required", "ref": "Art 35(5)", "backing": ["src_art35_5"] },
+    { "id": "r35_10", "body": ["legal_basis_law", "dpia_done_in_legislation"],  "head": "dpia_not_required", "ref": "Art 35(10)", "backing": ["src_art35_10"] },
+
+    { "id": "r36",    "body": ["residual_high_risk"], "head": "prior_consultation_required", "ref": "Art 36(1)", "backing": ["src_art36_1"] }
+  ],
+
+  "undercut": [
+    { "id": "uMS", "body": ["ms_deems_necessary"], "target": { "ruleId": "r35_10" },
+      "ref": "Art 35(10) 但書", "backing": ["src_art35_10"], "note": "加盟国が必要と判断する場合、法的根拠による免除は適用されない（免除の例外）" }
+  ],
+
+  "conflicts": [["dpia_required", "dpia_not_required"]],
+  "superiority": [
+    ["r35_5", "r35_1"], ["r35_5", "r35_3a"], ["r35_5", "r35_3b"], ["r35_5", "r35_3c"],
+    ["r35_10", "r35_1"], ["r35_10", "r35_3a"], ["r35_10", "r35_3b"], ["r35_10", "r35_3c"],
+    ["r35_4", "r35_5"]
+  ],
+
+  "verdict_map": {
+    "positive": ["dpia_required"],
+    "negative": ["dpia_not_required"],
+    "classes": ["prior_consultation_required"],
+    "labels": { "positive": "DPIA_REQUIRED", "negative": "DPIA_NOT_REQUIRED", "undetermined": "UNDETERMINED" }
+  },
+  "policy_beta": "skeptical",
+
+  "obligations": [
+    { "id": "obl_carry_out_dpia", "trigger": "positive",
+      "label": { "ja": "DPIA の実施", "en": "Carry out the DPIA" },
+      "text": "処理に先立ってデータ保護影響評価（DPIA）を実施する。",
+      "ref": "Art 35(1)", "backing": ["src_art35_1"] },
+    { "id": "obl_dpia_content", "trigger": "positive",
+      "label": { "ja": "DPIA の最低限の内容", "en": "Minimum content of the DPIA" },
+      "text": "処理の体系的記述・必要性比例性の評価・リスク評価・緩和措置を DPIA に含める（35(7)）。",
+      "ref": "Art 35(7)", "backing": ["src_art35_7"] },
+    { "id": "obl_dpo_advice", "trigger": "positive",
+      "label": { "ja": "DPO の助言", "en": "Seek advice of the DPO" },
+      "text": "DPO が指名されている場合はその助言を求める。",
+      "ref": "Art 35(2)", "backing": ["src_art35_2"] },
+    { "id": "obl_prior_consultation", "trigger_claim": "prior_consultation_required",
+      "label": { "ja": "監督機関への事前協議", "en": "Prior consultation" },
+      "text": "緩和措置後も高リスクが残る場合、処理前に監督機関へ事前協議する。",
+      "ref": "Art 36(1)", "backing": ["src_art36_1"] }
+  ]
+}

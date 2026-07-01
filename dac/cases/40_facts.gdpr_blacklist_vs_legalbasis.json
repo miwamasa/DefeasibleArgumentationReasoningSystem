@@ -1,0 +1,10 @@
+{
+  "case_id": "case_gdpr_blacklist_vs_legalbasis",
+  "rulepack_ref": "gdpr_art35@1.0.0",
+  "description": "監督機関の要DPIAリスト(35(4))に該当する一方、法的根拠による免除(35(10))も成立。両者に優劣がなく真の規範衝突 → UNDETERMINED（要人間判断）。",
+  "facts": {
+    "authority_blacklist":      { "value": true, "confidence": "confirmed" },
+    "legal_basis_law":          { "value": true, "confidence": "confirmed" },
+    "dpia_done_in_legislation": { "value": true, "confidence": "confirmed" }
+  }
+}

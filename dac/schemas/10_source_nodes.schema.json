@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dac/schemas/10_source_nodes.schema.json",
+  "title": "DAC source-node ledger (L1)",
+  "type": "object",
+  "required": ["regulation", "nodes"],
+  "properties": {
+    "regulation": { "type": "string" },
+    "source": { "type": "string" },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "normalized_text"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Za-z0-9_.:-]+$" },
+          "type": { "type": "string",
+            "enum": ["Regulation", "Article", "Annex", "Paragraph", "Recital", "Guideline", "Table", "Example", "Deprecated"] },
+          "parent_id": { "type": ["string", "null"] },
+          "number": { "type": "string" },
+          "title": { "type": "string" },
+          "normalized_text": { "type": "string" },
+          "citation": {
+            "type": "object",
+            "properties": {
+              "instrument": { "type": "string" },
+              "locator": { "type": "string" },
+              "page": { "type": ["string", "number", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

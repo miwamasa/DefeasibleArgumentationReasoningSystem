@@ -1,0 +1,13 @@
+{
+  "case_id": "case_a61_red_self_assessment",
+  "rulepack_ref": "eu_ai_act_art6_1@1.0.0",
+  "description": "無線機器指令の安全側面。RED Art 3(1)(a)はモジュールAを整合規格の義務化なしに認める（para 56脚注11）。安全コンポーネントだが第三者評価も整合規格義務化もない→自己評価で足り非該当。",
+  "facts": {
+    "ai_system": { "value": true, "confidence": "confirmed" },
+    "annex_i_regulated": { "value": true, "confidence": "confirmed", "evidence": "無線機器指令の対象" },
+    "failure_endangers": { "value": true, "confidence": "presumed", "evidence": "安全側面あり" },
+    "module_a_available": { "value": true, "confidence": "confirmed" },
+    "harmonised_standards_mandatory": { "value": false, "confidence": "confirmed", "evidence": "REDは安全側面でモジュールAを整合規格義務化なしに許容" },
+    "requires_third_party_ca": { "value": false, "confidence": "confirmed" }
+  }
+}

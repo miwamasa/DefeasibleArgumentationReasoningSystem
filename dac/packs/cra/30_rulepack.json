@@ -1,0 +1,105 @@
+{
+  "id": "cra",
+  "version": "0.1.0",
+  "literals_ref": "20_literals.json",
+  "source_ref": "10_source_nodes.json",
+  "note": "CRA の部分実装（適用範囲＋除外＋適合性評価ティア＋製造者義務）。ティアは上位クラス優先（lex specialis）を superiority で表す。",
+
+  "strict": [],
+
+  "defeasible": [
+    { "id": "rScope", "body": ["product_digital_elements", "data_connection"],
+      "head": "in_scope", "ref": "Art 2(1)", "backing": ["src_art2"] },
+    { "id": "rExcl", "body": ["excluded_other_regulation"],
+      "head": "out_of_scope", "ref": "Art 2(2)-(4)", "backing": ["src_art2_excl"] },
+
+    { "id": "rDefault", "body": ["product_digital_elements", "data_connection"],
+      "head": "tier_default", "ref": "Art 32(1)", "backing": ["src_art32"] },
+    { "id": "rClassI", "body": ["product_digital_elements", "data_connection", "annexIII_classI"],
+      "head": "tier_class_I", "ref": "Art 7 / Annex III(I)", "backing": ["src_annexIII_I"] },
+    { "id": "rClassII", "body": ["product_digital_elements", "data_connection", "annexIII_classII"],
+      "head": "tier_class_II", "ref": "Art 7 / Annex III(II)", "backing": ["src_annexIII_II"] },
+    { "id": "rCritical", "body": ["product_digital_elements", "data_connection", "annexIV_critical"],
+      "head": "tier_critical", "ref": "Art 8 / Annex IV", "backing": ["src_art8"] }
+  ],
+
+  "undercut": [
+    { "id": "uExclDefault", "body": ["excluded_other_regulation"], "target": { "ruleId": "rDefault" },
+      "ref": "Art 2(2)-(4)", "backing": ["src_art2_excl"], "note": "適用除外なら自己評価ティアも生じない" },
+    { "id": "uExclI", "body": ["excluded_other_regulation"], "target": { "ruleId": "rClassI" },
+      "ref": "Art 2(2)-(4)", "backing": ["src_art2_excl"], "note": "適用除外ならクラスIティアも生じない" },
+    { "id": "uExclII", "body": ["excluded_other_regulation"], "target": { "ruleId": "rClassII" },
+      "ref": "Art 2(2)-(4)", "backing": ["src_art2_excl"], "note": "適用除外ならクラスIIティアも生じない" },
+    { "id": "uExclCrit", "body": ["excluded_other_regulation"], "target": { "ruleId": "rCritical" },
+      "ref": "Art 2(2)-(4)", "backing": ["src_art2_excl"], "note": "適用除外ならクリティカルティアも生じない" }
+  ],
+
+  "conflicts": [
+    ["in_scope", "out_of_scope"],
+    ["tier_default", "tier_class_I"], ["tier_default", "tier_class_II"], ["tier_default", "tier_critical"],
+    ["tier_class_I", "tier_class_II"], ["tier_class_I", "tier_critical"],
+    ["tier_class_II", "tier_critical"]
+  ],
+  "superiority": [
+    ["rExcl", "rScope"],
+    ["rClassI", "rDefault"], ["rClassII", "rDefault"], ["rCritical", "rDefault"],
+    ["rClassII", "rClassI"], ["rCritical", "rClassI"],
+    ["rCritical", "rClassII"]
+  ],
+
+  "verdict_map": {
+    "positive": ["in_scope"],
+    "negative": ["out_of_scope"],
+    "classes": ["tier_default", "tier_class_I", "tier_class_II", "tier_critical"],
+    "labels": { "positive": "IN_SCOPE", "negative": "OUT_OF_SCOPE", "undetermined": "UNDETERMINED" }
+  },
+  "policy_beta": "skeptical",
+
+  "obligations": [
+    { "id": "obl_essential_req", "trigger": "positive",
+      "label": { "ja": "必須サイバーセキュリティ要件", "en": "Essential cybersecurity requirements" },
+      "text": "Annex I Part I の必須要件（リスクに基づく設計・既知脆弱性なしの供給等）を満たす。",
+      "ref": "Art 13 / Annex I Part I", "backing": ["src_art13", "src_annexI_I"] },
+    { "id": "obl_vuln_handling", "trigger": "positive",
+      "label": { "ja": "脆弱性処理（SBOM・更新）", "en": "Vulnerability handling" },
+      "text": "Annex I Part II の脆弱性処理（SBOM 作成、無償セキュリティ更新、調整された開示）を行う。",
+      "ref": "Art 13 / Annex I Part II", "backing": ["src_annexI_II"] },
+    { "id": "obl_risk_assessment", "trigger": "positive",
+      "label": { "ja": "リスク評価", "en": "Cybersecurity risk assessment" },
+      "text": "サイバーセキュリティリスク評価を実施し技術文書に含める。",
+      "ref": "Art 13", "backing": ["src_art13"] },
+    { "id": "obl_techdoc", "trigger": "positive",
+      "label": { "ja": "技術文書", "en": "Technical documentation" },
+      "text": "上市前に Annex VII に従った技術文書を作成し最新に保つ。",
+      "ref": "Art 31 / Annex VII", "backing": ["src_art31"] },
+    { "id": "obl_reporting", "trigger": "positive",
+      "label": { "ja": "脆弱性・インシデント報告", "en": "Vulnerability/incident reporting" },
+      "text": "積極的に悪用される脆弱性・重大インシデントを 24h 早期警告 / 72h 通知で ENISA・CSIRT へ報告する。",
+      "ref": "Art 14", "backing": ["src_art14"] },
+    { "id": "obl_eu_doc", "trigger": "positive",
+      "label": { "ja": "EU適合宣言", "en": "EU declaration of conformity" },
+      "text": "EU適合宣言書を作成・保持する。",
+      "ref": "Art 28", "backing": ["src_art28"] },
+    { "id": "obl_ce_marking", "trigger": "positive",
+      "label": { "ja": "CEマーキング", "en": "CE marking" },
+      "text": "適合性評価の完了後、CEマーキングを付す。",
+      "ref": "Art 30", "backing": ["src_art30"] },
+
+    { "id": "obl_ca_default", "trigger_claim": "tier_default",
+      "label": { "ja": "適合性評価: 自己評価（モジュールA）", "en": "Conformity: self-assessment (Module A)" },
+      "text": "内部統制（モジュールA）による自己評価で適合性評価を行う。",
+      "ref": "Art 32(1)", "backing": ["src_art32"] },
+    { "id": "obl_ca_classI", "trigger_claim": "tier_class_I",
+      "label": { "ja": "適合性評価: クラスI", "en": "Conformity: class I" },
+      "text": "整合規格・共通仕様を全面適用すれば自己評価可。適用できない場合は第三者関与の手続（モジュールB+C 又は H）を要する（harmonised_standard_available を参照）。",
+      "ref": "Art 32(2)", "backing": ["src_art32"] },
+    { "id": "obl_ca_classII", "trigger_claim": "tier_class_II",
+      "label": { "ja": "適合性評価: クラスII（第三者）", "en": "Conformity: class II (third-party)" },
+      "text": "第三者適合性評価（モジュールB+C 又は H）を要する。",
+      "ref": "Art 32(3)", "backing": ["src_art32", "src_annexIII_II"] },
+    { "id": "obl_ca_critical", "trigger_claim": "tier_critical",
+      "label": { "ja": "適合性評価: クリティカル（欧州認証）", "en": "Conformity: critical (EU certification)" },
+      "text": "欧州サイバーセキュリティ認証（例: EUCC, assurance level substantial）の取得を要求されうる。",
+      "ref": "Art 8 / Art 32", "backing": ["src_art8", "src_art32"] }
+  ]
+}

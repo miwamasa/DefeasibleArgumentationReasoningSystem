@@ -1,0 +1,11 @@
+{
+  "case_id": "case_2025_cv_screening_uncertain",
+  "rulepack_ref": "eu_ai_act_art6@6.1.0",
+  "description": "採用候補者スクリーニング補助AI。Annex III 4(b)（雇用）に該当。狭い手続的タスク(filter_a)と主張するが、スコアリング有無・プロファイリング該当・役割が未確定。判定が条件次第で割れる典型例。",
+  "facts": {
+    "ai_system":        { "value": true,  "confidence": "confirmed" },
+    "usecase":          { "value": "4(b)", "confidence": "confirmed", "reference": "src_art6_2" },
+    "permitted_by_law": { "value": true,  "confidence": "confirmed" },
+    "filter_a":         { "value": true,  "confidence": "presumed", "evidence": "狭い手続的タスクと主張" }
+  }
+}

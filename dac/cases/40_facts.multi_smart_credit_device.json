@@ -1,0 +1,18 @@
+{
+  "case_id": "case_multi_smart_credit_device",
+  "description": "ネットワーク接続するクラウド連携型の信用評価デバイス／サービス。個人データを自動処理し、自然人の返済能力を体系的に評価・スコアリングして金融機関に提供する。AI Act・GDPR・CRA の3規制を同時に検討する事案。",
+  "facts": {
+    "product_digital_elements": { "value": true, "confidence": "confirmed", "evidence": "クラウド連携デバイス" },
+    "data_connection": { "value": true, "confidence": "confirmed", "evidence": "常時ネットワーク接続" },
+
+    "ai_system": { "value": true, "confidence": "confirmed" },
+    "usecase": { "value": "5(b)", "confidence": "confirmed", "evidence": "信用力スコアリング" },
+    "permitted_by_law": { "value": true, "confidence": "confirmed" },
+    "automated": { "value": true, "confidence": "confirmed" },
+    "personal_data": { "value": true, "confidence": "confirmed" },
+    "evaluate_aspects": { "value": true, "confidence": "confirmed", "evidence": "返済能力を評価" },
+
+    "systematic_extensive_evaluation": { "value": true, "confidence": "confirmed", "evidence": "自動処理による体系的・広範な評価" },
+    "residual_high_risk": { "value": true, "confidence": "presumed", "evidence": "緩和措置後も影響大と推定" }
+  }
+}

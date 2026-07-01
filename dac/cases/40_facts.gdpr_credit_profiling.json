@@ -1,0 +1,9 @@
+{
+  "case_id": "case_gdpr_credit_profiling",
+  "rulepack_ref": "gdpr_art35@1.0.0",
+  "description": "信用スコアリングによる与信判断。35(3)(a) 体系的・広範な評価に該当し、緩和後も高リスクが残る → DPIA必要 + 事前協議。",
+  "facts": {
+    "systematic_extensive_evaluation": { "value": true, "confidence": "confirmed" },
+    "residual_high_risk":              { "value": true, "confidence": "presumed", "evidence": "緩和措置後も影響大と推定" }
+  }
+}

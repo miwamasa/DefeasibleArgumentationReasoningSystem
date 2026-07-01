@@ -1,0 +1,12 @@
+{
+  "case_id": "case_a61_machinery_safe_stop",
+  "rulepack_ref": "eu_ai_act_art6_1@1.0.0",
+  "description": "機械のロボットセル内で人の存在を検知し安全停止/減速を行うAIビジョンシステム。意図目的は傷害防止=安全機能。機械規則で第三者適合性評価を要する（ガイドライン para 45）。",
+  "facts": {
+    "ai_system": { "value": true, "confidence": "confirmed" },
+    "annex_i_regulated": { "value": true, "confidence": "confirmed", "evidence": "機械規則(EU)2023/1230の対象" },
+    "intended_safety_function": { "value": true, "confidence": "confirmed", "evidence": "傷害防止のための安全停止" },
+    "requires_third_party_ca": { "value": true, "confidence": "confirmed" },
+    "role_provider": { "value": true, "confidence": "confirmed" }
+  }
+}

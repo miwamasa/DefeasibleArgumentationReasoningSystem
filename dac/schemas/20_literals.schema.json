@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dac/schemas/20_literals.schema.json",
+  "title": "DAC literal dictionary",
+  "type": "object",
+  "required": ["rulepack_id", "literals"],
+  "properties": {
+    "rulepack_id": { "type": "string" },
+    "literals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "datatype"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Za-z0-9_@().:-]+$" },
+          "kind": { "type": "string", "enum": ["input", "derived", "conclusion"] },
+          "datatype": { "type": "string", "enum": ["boolean", "enum"] },
+          "enum": { "type": "array", "items": { "type": "string" } },
+          "derivation": { "type": "string", "description": "input/derived: 導出元 strict ルールID（derived のとき）" },
+          "label": {
+            "type": "object",
+            "properties": { "ja": { "type": "string" }, "en": { "type": "string" } },
+            "additionalProperties": true
+          },
+          "definition": { "type": "string" },
+          "llm_prompt": { "type": "string" },
+          "open_texture": { "type": "boolean" },
+          "backing": { "type": "array", "items": { "type": "string" } }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "datatype": { "const": "enum" } } },
+            "then": { "required": ["enum"] }
+          }
+        ],
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

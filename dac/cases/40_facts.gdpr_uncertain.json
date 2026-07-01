@@ -1,0 +1,6 @@
+{
+  "case_id": "case_gdpr_uncertain",
+  "rulepack_ref": "gdpr_art35@1.0.0",
+  "description": "新サービスの処理。高リスクの可能性・特別カテゴリ・各種リストが未確定 → シミュレーションで要否を探る。",
+  "facts": {}
+}
